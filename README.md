@@ -1,6 +1,6 @@
 # relo-web
 
-Marketing site for Relo. Handles everything public-facing — the homepage, features, about, contact, and waitlist. That's the scope of this repo and it's intentional.
+Marketing site for Relo. Handles everything public-facing — the homepage, features, about, contact, and waitlist. 
 
 The main app (`relo`) lives on a self-hosted VPS and carries Postgres, Prisma, Better Auth, and all the product logic. Keeping the marketing site separate means a copy change or a design tweak here never goes anywhere near the app codebase — different repo, different deployment, different concern. When sign-up eventually moves here, it'll just call the app's API as an external service.
 
@@ -10,8 +10,8 @@ No database. No auth. No Prisma.
 
 ## Stack
 
-- Next.js 15 (App Router)
-- Tailwind CSS v4
+- Next.js (App Router)
+- Tailwind CSS 
 - TypeScript
 - Lucide React
 
@@ -58,7 +58,8 @@ npm run dev
 
 ## Design Tokens
 
-Colours are CSS variables in `globals.css`, mirrored in `tailwind.config.ts` under the `relo` key. Matched to the main app palette.
+Colours are CSS variables in `globals.css`, mirrored in `tailwind.config.ts` under the `relo` key. This is a build on the main app's palette.
+
 
 | Token           | Value     |
 | --------------- | --------- |
@@ -70,6 +71,7 @@ Colours are CSS variables in `globals.css`, mirrored in `tailwind.config.ts` und
 | `--relo-text`   | `#0f1f1a` |
 | `--relo-muted`  | `#4a6359` |
 | `--relo-border` | `#c8cec8` |
+
 
 ---
 
