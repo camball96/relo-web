@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# relo-web
+
+Marketing site for Relo. Handles everything public-facing — the homepage, features, about, contact, and waitlist. That's the scope of this repo and it's intentional.
+
+The main app (`relo`) lives on a self-hosted VPS and carries Postgres, Prisma, Better Auth, and all the product logic. Keeping the marketing site separate means a copy change or a design tweak here never goes anywhere near the app codebase — different repo, different deployment, different concern. When sign-up eventually moves here, it'll just call the app's API as an external service.
+
+No database. No auth. No Prisma.
+
+---
+
+## Stack
+
+- Next.js 15 (App Router)
+- Tailwind CSS v4
+- TypeScript
+- Lucide React
+
+---
+
+## Structure
+
+```
+relo-web/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Metadata + OG tags
+│   │   ├── page.tsx            # Homepage
+│   │   └── globals.css         # CSS variables / design tokens
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── nav.tsx
+│   │   │   └── footer.tsx
+│   │   └── marketing/
+│   │       ├── hero.tsx
+│   │       ├── dashboard-preview.tsx
+│   │       ├── features.tsx
+│   │       ├── about.tsx
+│   │       └── contact.tsx
+│   ├── config/
+│   │   └── site.ts             # Site name, tagline, nav items
+│   └── lib/
+│       └── utils.ts            # cn() helper
+├── next.config.ts
+├── tailwind.config.ts
+└── tsconfig.json
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Design Tokens
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Colours are CSS variables in `globals.css`, mirrored in `tailwind.config.ts` under the `relo` key. Matched to the main app palette.
 
-## Learn More
+| Token           | Value     |
+| --------------- | --------- |
+| `--relo-dark`   | `#111e18` |
+| `--relo-green`  | `#1C3329` |
+| `--relo-accent` | `#7bbfa0` |
+| `--relo-gbg`    | `#ddeae3` |
+| `--relo-bg`     | `#EDECEA` |
+| `--relo-text`   | `#0f1f1a` |
+| `--relo-muted`  | `#4a6359` |
+| `--relo-border` | `#c8cec8` |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## TODO
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Waitlist form** — `hero.tsx` shows a success state but doesn't POST anywhere yet. Needs a `/api/waitlist` route handler wired to an email service.
+- **Contact form** — same deal, `contact.tsx` has a TODO where the fetch goes.
+- **Sign-up** — once the app launches, the waitlist CTA flips to point at `app.relo.com`. If registration ever lives here it'll call the app's Better Auth endpoint directly.
+- **Deployment** — not set up yet.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## vs `relo`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`relo` is the app (Postgres, Prisma, Better Auth, self-hosted VPS). This repo is just the marketing site. They share a colour palette but are otherwise completely independent.
