@@ -24,9 +24,18 @@ export function Contact() {
     <section
       id="contact"
       className="px-10 py-20"
-      style={{ background: 'var(--relo-bg)' }}
+      style={{ background: 'var(--relo-bg)', position: 'relative', overflow: 'hidden' }}
     >
-      <div className="max-w-[900px] mx-auto">
+      <span style={{
+        position: 'absolute', bottom: '-20px', right: '0px',
+        fontFamily: 'var(--font-serif)', fontSize: '250px', fontWeight: 500,
+        color: '#1C3329', opacity: 0.3, lineHeight: 1,
+        pointerEvents: 'none', userSelect: 'none', letterSpacing: '-6px',
+      }}>
+        relo
+      </span>
+
+      <div className="max-w-[900px] mx-auto" style={{ position: 'relative', zIndex: 1 }}>
         <div
           className="rounded-[12px] p-12 max-w-[580px]"
           style={{ background: 'var(--relo-white)', border: '0.5px solid var(--relo-border)' }}
@@ -55,8 +64,8 @@ export function Contact() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {[
-                { name: 'name',    label: 'Name',    type: 'text',  placeholder: 'Your name' },
-                { name: 'email',   label: 'Email',   type: 'email', placeholder: 'your@email.com' },
+                { name: 'name',  label: 'Name',  type: 'text',  placeholder: 'Your name' },
+                { name: 'email', label: 'Email', type: 'email', placeholder: 'your@email.com' },
               ].map((field) => (
                 <div key={field.name}>
                   <label
