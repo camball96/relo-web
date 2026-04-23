@@ -1,27 +1,36 @@
+import { CircleUser, PackageSearch, Search, Package, LayoutDashboard, Database } from "lucide-react"
+
+
 const features = [
   {
     title: 'Customer directory',
     desc:  'Everyone you work with, in one place. Search, filter, and pull up any client in a couple of keystrokes.',
+    icon: <CircleUser className="w-4 h-4" />,
   },
   {
     title: 'Product catalogue',
     desc:  'Build your service menu once. Monthly, annual, or one-off — billing cycles handled without a second spreadsheet.',
+    icon: <PackageSearch className="w-4 h-4" />,
   },
   {
     title: 'Instant lookup',
     desc:  'Client on the line, wants to know what they\'re paying for. You\'re there in three seconds. Every time.',
-  },
+    icon: <Search className="w-4 h-4" />,
+    },
   {
     title: 'Product assignments',
     desc:  'Assign services to clients, override pricing for legacy deals, and keep a full history. Nothing gets deleted.',
+    icon: <Package className="w-4 h-4" />,
   },
   {
     title: 'Workspace overview',
     desc:  'A dashboard that shows you what\'s growing, what\'s changed, and who just came on board — at a glance.',
+    icon: <LayoutDashboard className="w-4 h-4" />,
   },
   {
     title: 'Your data, full stop',
     desc:  'No shared infrastructure, no upselling to a team plan. Your workspace is yours and no one else\'s.',
+    icon: <Database className="w-4 h-4" />,
   },
 ]
 
@@ -68,9 +77,11 @@ export function Features() {
               style={{ background: 'var(--relo-bg)' }}
             >
               <div
-                className="w-[38px] h-[38px] rounded-[8px] mb-4"
+                className="w-[38px] h-[38px] rounded-[8px] mb-4 flex items-center justify-center"
                 style={{ background: 'var(--relo-gbg)' }}
-              />
+              >
+                {f.icon}
+              </div>
               <div
                 className="text-[15px] font-medium mb-2"
                 style={{ color: 'var(--relo-text)' }}

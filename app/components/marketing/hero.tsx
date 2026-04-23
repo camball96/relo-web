@@ -26,8 +26,7 @@ export function Hero() {
       style={{ background: 'var(--relo-dark)' }}
       className="px-10 pt-24 pb-22"
     >
-      <div className="max-w-[900px] mx-auto">
-
+      <div className="text-bubble max-w-[900px] mx-auto">
         <div
           className="inline-block text-[12px] font-medium px-[14px] py-1 rounded-full mb-7"
           style={{
@@ -40,22 +39,23 @@ export function Hero() {
         </div>
 
         <h1
-          className="font-serif text-[62px] font-medium leading-[1.06] tracking-[-2px] text-white mb-1"
+          className="hero-title font-serif text-[62px] font-medium leading-[1.06] tracking-[-2px] text-white mb-1"
         >
           Your clients.<br />
           <em style={{ color: 'var(--relo-accent)' }}>Instantly recalled.</em>
         </h1>
 
         <p
-          className="text-[17px] leading-[1.7] max-w-[520px] mt-6 mb-11"
+          className="hero-blurb text-[17px] leading-[1.7] max-w-[520px] mt-6 mb-11"
           style={{ color: 'rgba(255,255,255,0.6)' }}
         >
+          {/* make relo here bold, white and maybe incorporate typewriter affect somehow */}
           Relo is the workspace for freelancers and service providers who need
           to know exactly what every client is on — the moment they pick up the
           phone. No spreadsheets. No digging. Just answers.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex gap-[10px] max-w-[440px]">
+        <form onSubmit={handleSubmit} className="hero-form flex gap-[10px] max-w-[440px]">
           <input
             type="email"
             value={email}
