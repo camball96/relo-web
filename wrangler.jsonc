@@ -21,5 +21,11 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "routes": [
+    {
+      "pattern": "relocrm.au",
+      "custom_domain": true
+    }
+  ]
 }

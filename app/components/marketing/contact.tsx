@@ -112,7 +112,7 @@ export function Contact() {
               Got it — we'll be in touch.
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form className="space-y-4">
               {[
                 {
                   name: "name",
