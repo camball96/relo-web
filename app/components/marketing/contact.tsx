@@ -23,6 +23,7 @@ export function Contact() {
         background: "var(--relo-bg)",
         position: "relative",
         overflow: "hidden",
+        paddingBottom: "50%",
       }}
     >
       <span

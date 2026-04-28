@@ -40,14 +40,14 @@ const maxBar = Math.max(...chartBars.map((b) => b.value));
 export function DashboardPreview() {
   return (
     <div
-      className="dashboard-preview mt-[4.5rem] rounded-[10px] overflow-hidden font-sans"
+      className="dashboard-preview mt-18 rounded-[10px] overflow-hidden font-sans"
       style={{
         background: "var(--relo-bg)",
         border: "0.5px solid rgba(255,255,255,0.12)",
       }}
     >
       <div
-        className="dashboard-preview__browser flex items-center gap-[7px] px-[14px] py-[9px]"
+        className="dashboard-preview__browser flex items-center gap-[7px] px-[10px] py-[8px] sm:px-[14px] sm:py-[9px]"
         style={{
           background: "var(--relo-dark2)",
           borderBottom: "0.5px solid rgba(255,255,255,0.08)",
@@ -57,7 +57,7 @@ export function DashboardPreview() {
         <div className="w-[9px] h-[9px] rounded-full bg-[#e8b86a]" />
         <div className="w-[9px] h-[9px] rounded-full bg-[#6abf7a]" />
         <span
-          className="ml-[6px] text-[11px] px-[10px] py-[2px] rounded-[4px]"
+          className="ml-[4px] text-[10px] px-[8px] py-[2px] rounded-[4px] max-w-[170px] truncate sm:ml-[6px] sm:text-[11px] sm:px-[10px]"
           style={{
             background: "rgba(255,255,255,0.08)",
             border: "0.5px solid rgba(255,255,255,0.12)",
@@ -72,7 +72,7 @@ export function DashboardPreview() {
       <div className="dashboard-preview__shell flex">
         {/* Sidebar */}
         <div
-          className="dashboard-preview__sidebar w-[172px] flex flex-col flex-shrink-0"
+          className="dashboard-preview__sidebar hidden md:flex w-[172px] flex-col shrink-0"
           style={{
             background: "var(--relo-white)",
             borderRight: "0.5px solid var(--relo-border)",
@@ -84,7 +84,7 @@ export function DashboardPreview() {
             style={{ borderBottom: "0.5px solid var(--relo-border)" }}
           >
             <div
-              className="w-[30px] h-[30px] rounded-md flex items-center justify-center text-[11px] font-medium text-white flex-shrink-0"
+              className="w-[30px] h-[30px] rounded-md flex items-center justify-center text-[11px] font-medium text-white shrink-0"
               style={{ background: "var(--relo-green)" }}
             >
               C
@@ -110,7 +110,7 @@ export function DashboardPreview() {
             {["Dashboard", "Customers", "Products", "Settings"].map((item) => (
               <div
                 key={item}
-                className="flex items-center gap-2 px-2 py-[7px] rounded-[5px] text-[11px] mb-[1px] cursor-default"
+                className="flex items-center gap-2 px-2 py-[7px] rounded-[5px] text-[11px] mb-px cursor-default"
                 style={
                   item === "Dashboard"
                     ? {
@@ -142,7 +142,7 @@ export function DashboardPreview() {
 
         {/* Main content */}
         <div
-          className="dashboard-preview__content flex-1 p-[20px_22px] overflow-hidden"
+          className="dashboard-preview__content flex-1 p-4 sm:p-[20px_22px] overflow-hidden"
           style={{ background: "var(--relo-bg)" }}
         >
           <div
@@ -152,18 +152,18 @@ export function DashboardPreview() {
             Workspace overview
           </div>
           <div
-            className="text-[22px] font-medium tracking-[-0.4px] mb-[18px]"
+            className="text-[18px] sm:text-[22px] font-medium tracking-[-0.4px] mb-[14px] sm:mb-[18px]"
             style={{ color: "var(--relo-text)" }}
           >
             Good evening, Cam
           </div>
 
           {/* Stat cards */}
-          <div className="grid grid-cols-3 gap-[10px] mb-[14px]">
-            {stats.map((stat) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-[10px] mb-[14px]">
+            {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="rounded-[7px] p-[11px_13px]"
+                className={`rounded-[7px] p-[11px_13px] ${index === 2 ? 'col-span-2 sm:col-span-1' : ''}`}
                 style={{
                   background: "var(--relo-white)",
                   border: "0.5px solid var(--relo-border)",
@@ -184,13 +184,13 @@ export function DashboardPreview() {
                   </span>
                 </div>
                 <div
-                  className="text-[20px] font-medium"
+                  className="text-[18px] sm:text-[20px] font-medium"
                   style={{ color: "var(--relo-text)" }}
                 >
                   {stat.value}
                 </div>
                 <div
-                  className="text-[10px] mt-[2px]"
+                  className="text-[10px] mt-[2px] "
                   style={{ color: "var(--relo-muted)" }}
                 >
                   {stat.label}
@@ -200,10 +200,7 @@ export function DashboardPreview() {
           </div>
 
           {/* Bottom grid */}
-          <div
-            className="grid gap-[12px]"
-            style={{ gridTemplateColumns: "1fr 200px" }}
-          >
+          <div className="grid gap-[12px] lg:grid-cols-[minmax(0,1fr)_200px]">
             {/* Chart */}
             <div
               className="rounded-[7px] p-[13px_14px]"
