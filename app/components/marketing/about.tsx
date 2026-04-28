@@ -6,10 +6,7 @@ export function About() {
       style={{ background: 'var(--relo-dark)' }}
     >
       <div className="max-w-[900px] mx-auto">
-        <div
-          className="grid gap-20 items-center"
-          style={{ gridTemplateColumns: '1fr 1fr' }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
           <div>
             <div
               className="text-[12px] font-medium tracking-[1px] uppercase mb-4"
