@@ -13,7 +13,7 @@ export default function HomePage() {
         <Hero />
         <Features />
         <About />
-        <Contact />
+        {/* <Contact /> */}
       </main>
       <Footer />
     </>

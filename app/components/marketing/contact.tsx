@@ -1,33 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useActionState } from "react";
 import { Turnstile } from "next-turnstile";
-
-const defaultForm = { name: "", email: "", message: "" };
+import { FormState, submitContactForm } from "../../actions/formActions";
 
 export function Contact() {
-  const [form, setForm] = useState(defaultForm);
-  const [submitted, setSubmitted] = useState(false);
-  const [isLocalhost, setIsLocalhost] = useState(false);
-  const [turnstileKey, setTurnstileKey] = useState<string | undefined>(undefined);
-
-  // console.log(window.location.hostname)
-
-  useEffect(() => {
-    if (
-      window.location.hostname.includes("localhost") ||
-      window.location.hostname.includes("127.0.0.1")
-    ) {
-      console.log("localhost");
-      setTurnstileKey("1x00000000000000000000AA");
-      setIsLocalhost(true);
-    } else {
-      console.log("not localhost");
-      setTurnstileKey(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
-      setIsLocalhost(false);
-      console.log("this is using turnstile key from env", process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.slice(0, 5) + "...");
-    }
-  }, []);
+  const [currentState, formAction, isPending] = useActionState<
+    FormState,
+    FormData
+  >(submitContactForm, {});
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -43,6 +24,7 @@ export function Contact() {
     e.preventDefault();
     // TODO: wire up to an email handler (Resend recommended)
     // await fetch('/api/contact', { method: 'POST', body: JSON.stringify(form) })
+
     setSubmitted(true);
     setForm(defaultForm);
   }
@@ -100,8 +82,7 @@ export function Contact() {
             Got a question, a feature you'd kill for, or just want to know when
             Relo ships? We're easy to reach.
           </p>
-
-          {submitted ? (
+          {currentState.success && currentState.message ? (
             <div
               className="px-[14px] py-[10px] rounded-md text-[14px] font-medium"
               style={{
@@ -109,10 +90,10 @@ export function Contact() {
                 color: "var(--relo-green)",
               }}
             >
-              Got it — we'll be in touch.
+              <p> Got it — we'll be in touch.</p>
             </div>
           ) : (
-            <form className="space-y-4">
+            <form action={formAction} className="space-y-4">
               {[
                 {
                   name: "name",
@@ -137,7 +118,7 @@ export function Contact() {
                   <input
                     type={field.type}
                     name={field.name}
-                    value={form[field.name as keyof typeof form]}
+                    value={currentState[field.name as keyof FormState]}
                     onChange={handleChange}
                     placeholder={field.placeholder}
                     className="w-full px-[14px] py-[10px] rounded-md text-[14px] outline-none transition-colors"
@@ -146,6 +127,7 @@ export function Contact() {
                       border: "0.5px solid var(--relo-border)",
                       color: "var(--relo-text)",
                     }}
+                    disabled={isPending}
                   />
                 </div>
               ))}
@@ -169,6 +151,7 @@ export function Contact() {
                     border: "0.5px solid var(--relo-border)",
                     color: "var(--relo-text)",
                   }}
+                  disabled={isPending}
                 />
               </div>
 
@@ -176,22 +159,16 @@ export function Contact() {
                 type="submit"
                 className="mt-2 px-[26px] py-[11px] rounded-md text-[14px] font-medium text-white transition-colors"
                 style={{ background: "var(--relo-dark)" }}
+                disabled={isPending}
               >
-                Send message
+                {isPending ? "Sending..." : "Send message"}
               </button>
               <div>
-                {turnstileKey && (
-                  <Turnstile
-                    siteKey={turnstileKey}
-                    sandbox={
-                      isLocalhost
-                        ? process.env.NODE_ENV === "development"
-                        : false
-                    }
-                    onVerify={handleVerify}
-                    theme="light"
-                  />
-                )}
+                <Turnstile
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                  onVerify={handleVerify}
+                  theme="light"
+                />
               </div>
             </form>
           )}

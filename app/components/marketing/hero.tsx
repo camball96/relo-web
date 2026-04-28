@@ -1,24 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useActionState } from 'react'
 import { DashboardPreview } from './dashboard-preview'
+import { FormState, submitContactForm } from '../../actions/formActions'
 
 export function Hero() {
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState(false)
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!email || !email.includes('@')) {
-      setError(true)
-      setTimeout(() => setError(false), 1500)
-      return
-    }
-    // TODO: POST to waitlist endpoint
-    setSubmitted(true)
-    setEmail('')
-  }
+  const [currentState, formAction, isPending] = useActionState<FormState, FormData>(submitContactForm, {});
+
+  
 
   return (
     <section
@@ -55,30 +45,32 @@ export function Hero() {
           phone. No spreadsheets. No digging. Just answers.
         </p>
 
-        <form onSubmit={handleSubmit} className="hero-form flex gap-[10px] max-w-[440px]">
+        <form action={formAction} className="hero-form flex gap-[10px] max-w-[440px]">
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
             placeholder="your@email.com"
             className="flex-1 px-4 py-[11px] rounded-md text-[14px] text-white outline-none transition-colors"
             style={{
               background: 'rgba(255,255,255,0.08)',
-              border: error
+              border: currentState.error
                 ? '0.5px solid rgba(255,100,100,0.7)'
                 : '0.5px solid rgba(255,255,255,0.2)',
             }}
+            required
+            disabled={isPending}
           />
           <button
             type="submit"
             className="bg-white font-medium text-[14px] px-[22px] py-[11px] rounded-md whitespace-nowrap hover:bg-relo-gbg transition-colors"
             style={{ color: 'var(--relo-dark)' }}
+            disabled={isPending}
           >
-            Get early access
+            {isPending ? "Submitting..." : "Get early access"}
           </button>
         </form>
 
-        {submitted && (
+        {currentState.success && currentState.message && (
           <div
             className="mt-[10px] px-[14px] py-[10px] rounded-md text-[13px] font-medium"
             style={{
@@ -88,6 +80,17 @@ export function Hero() {
             }}
           >
             You're on the list. We'll be in touch.
+          </div>
+        )}
+        {currentState.error && (
+          <div
+            className="mt-[10px] px-[14px] py-[10px] rounded-md text-[13px] font-medium"
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              color: 'rgba(255,100,100,0.7)',
+            }}
+          >
+            {currentState.error}
           </div>
         )}
 
