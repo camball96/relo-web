@@ -1,32 +1,18 @@
 "use client";
 
-import { useState, useEffect, useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Turnstile } from "next-turnstile";
 import { FormState, submitContactForm } from "../../actions/formActions";
 
 export function Contact() {
-  const [currentState, formAction, isPending] = useActionState<
-    FormState,
-    FormData
-  >(submitContactForm, {});
-
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
+  const [currentState, formAction, isPending] = useActionState<FormState, FormData>(
+    submitContactForm,
+    {},
+  );
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   function handleVerify(token: string) {
-    console.log("verification successful:", token);
-  }
-
-  async function handleSubmit(e: React.FormEvent, token: string) {
-    e.preventDefault();
-    // TODO: wire up to an email handler (Resend recommended)
-    // await fetch('/api/contact', { method: 'POST', body: JSON.stringify(form) })
-
-    setSubmitted(true);
-    setForm(defaultForm);
+    setTurnstileToken(token);
   }
 
   return (
@@ -94,6 +80,8 @@ export function Contact() {
             </div>
           ) : (
             <form action={formAction} className="space-y-4">
+              <input type="hidden" name="source" value="contact" />
+              <input type="hidden" name="turnstileToken" value={turnstileToken} />
               {[
                 {
                   name: "name",
@@ -118,8 +106,6 @@ export function Contact() {
                   <input
                     type={field.type}
                     name={field.name}
-                    value={currentState[field.name as keyof FormState]}
-                    onChange={handleChange}
                     placeholder={field.placeholder}
                     className="w-full px-[14px] py-[10px] rounded-md text-[14px] outline-none transition-colors"
                     style={{
@@ -128,6 +114,7 @@ export function Contact() {
                       color: "var(--relo-text)",
                     }}
                     disabled={isPending}
+                    required
                   />
                 </div>
               ))}
@@ -141,8 +128,6 @@ export function Contact() {
                 </label>
                 <textarea
                   name="message"
-                  value={form.message}
-                  onChange={handleChange}
                   placeholder="What's on your mind?"
                   rows={4}
                   className="w-full px-[14px] py-[10px] rounded-md text-[14px] outline-none resize-y leading-relaxed"
@@ -152,6 +137,7 @@ export function Contact() {
                     color: "var(--relo-text)",
                   }}
                   disabled={isPending}
+                  required
                 />
               </div>
 

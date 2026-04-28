@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import { useState, useActionState } from 'react'
-import { DashboardPreview } from './dashboard-preview'
-import { FormState, submitContactForm } from '../../actions/formActions'
+import { useActionState } from "react";
+import { DashboardPreview } from "./dashboard-preview";
+import { FormState, submitContactForm } from "../../actions/formActions";
 
 export function Hero() {
-
-  const [currentState, formAction, isPending] = useActionState<FormState, FormData>(submitContactForm, {});
-
-  
+  const [currentState, formAction, isPending] = useActionState<FormState, FormData>(
+    submitContactForm,
+    {},
+  );
 
   return (
     <section
@@ -46,6 +46,7 @@ export function Hero() {
         </p>
 
         <form action={formAction} className="hero-form flex gap-[10px] max-w-[440px]">
+          <input type="hidden" name="source" value="hero" />
           <input
             type="email"
             name="email"
@@ -101,5 +102,5 @@ export function Hero() {
         <DashboardPreview />
       </div>
     </section>
-  )
+  );
 }
