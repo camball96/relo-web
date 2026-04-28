@@ -25,7 +25,7 @@ export function Nav() {
         ))}
         <Link
           href="#waitlist"
-          className="bg-white text-[13px] font-medium px-[18px] py-[7px] rounded-md hover:bg-relo-gbg transition-colors"
+          className="bg-white text-[13px] hidden sm:inline-block font-medium px-[18px] py-[7px] rounded-md hover:bg-relo-gbg transition-colors"
           style={{ color: 'var(--relo-dark)' }}
         >
           Join waitlist
