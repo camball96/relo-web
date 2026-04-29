@@ -1,38 +1,6 @@
-import { CircleUser, PackageSearch, Search, Package, LayoutDashboard, Database } from "lucide-react"
 
+import { features } from "../../config/content";
 
-const features = [
-  {
-    title: 'Customer directory',
-    desc:  'Everyone you work with, in one place. Search, filter, and pull up any client in a couple of keystrokes.',
-    icon: <CircleUser className="w-4 h-4" />,
-  },
-  {
-    title: 'Product catalogue',
-    desc:  'Build your service menu once. Monthly, annual, or one-off — billing cycles handled without a second spreadsheet.',
-    icon: <PackageSearch className="w-4 h-4" />,
-  },
-  {
-    title: 'Instant lookup',
-    desc:  'Client on the line, wants to know what they\'re paying for. You\'re there in three seconds. Every time.',
-    icon: <Search className="w-4 h-4" />,
-    },
-  {
-    title: 'Product assignments',
-    desc:  'Assign services to clients, override pricing for legacy deals, and keep a full history. Nothing gets deleted.',
-    icon: <Package className="w-4 h-4" />,
-  },
-  {
-    title: 'Workspace overview',
-    desc:  'A dashboard that shows you what\'s growing, what\'s changed, and who just came on board — at a glance.',
-    icon: <LayoutDashboard className="w-4 h-4" />,
-  },
-  {
-    title: 'Your data, full stop',
-    desc:  'No shared infrastructure, no upselling to a team plan. Your workspace is yours and no one else\'s.',
-    icon: <Database className="w-4 h-4" />,
-  },
-]
 
 export function Features() {
   return (
@@ -46,20 +14,19 @@ export function Features() {
           className="text-[12px] font-medium tracking-[1px] uppercase mb-4"
           style={{ color: 'var(--relo-bright)' }}
         >
-          Features
+          {features.subTitle}
         </div>
         <h2
           className="font-serif text-[40px] font-medium tracking-[-1px] mb-4"
           style={{ color: 'var(--relo-text)' }}
         >
-          Less tool. More answer.
+          {features.title}
         </h2>
         <p
           className="text-[16px] leading-[1.65] max-w-[520px] mb-12"
           style={{ color: 'var(--relo-muted)' }}
         >
-          Relo strips the CRM down to what actually matters for solo operators —
-          your clients, your services, and who has what. That's it.
+          {features.blurb}
         </p>
 
         <div
@@ -70,7 +37,7 @@ export function Features() {
             border: '0.5px solid var(--relo-border)',
           }}
         >
-          {features.map((f) => (
+          {features.data.map((f) => (
             <div
               key={f.title}
               className="p-7"

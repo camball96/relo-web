@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { DashboardPreview } from "./dashboard-preview";
 import { FormState, submitContactForm } from "../../actions/formActions";
+import { hero } from "../../config/content";
 
 export function Hero() {
   const [currentState, formAction, isPending] = useActionState<FormState, FormData>(
@@ -25,24 +26,21 @@ export function Hero() {
             border: '0.5px solid rgba(255,255,255,0.15)',
           }}
         >
-          Coming soon — join the waitlist
+          {hero.tag}
         </div>
 
         <h1
           className="hero-title font-serif text-[62px] font-medium leading-[1.06] tracking-[-2px] text-white mb-1"
         >
-          Your clients.<br />
-          <em style={{ color: 'var(--relo-accent)' }}>Instantly recalled.</em>
+          {hero.title1}<br />
+          <em style={{ color: 'var(--relo-accent)' }}>{hero.title2}</em>
         </h1>
 
         <p
           className="hero-blurb text-[17px] leading-[1.7] max-w-[520px] mt-6 mb-11"
           style={{ color: 'rgba(255,255,255,0.6)' }}
         >
-          {/* make relo here bold, white and maybe incorporate typewriter affect somehow */}
-          Relo is the workspace for freelancers and service providers who need
-          to know exactly what every client is on — the moment they pick up the
-          phone. No spreadsheets. No digging. Just answers.
+          {hero.blurb}
         </p>
 
         <form action={formAction} className="hero-form flex gap-[10px] max-w-[440px]">
@@ -67,7 +65,7 @@ export function Hero() {
             style={{ color: 'var(--relo-dark)' }}
             disabled={isPending}
           >
-            {isPending ? "Submitting..." : "Get early access"}
+            {isPending ? "Submitting..." : hero.buttonText}
           </button>
         </form>
 
@@ -96,7 +94,7 @@ export function Hero() {
         )}
 
         <p className="text-[12px] mt-[14px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
-          No spam. Just a heads up when the doors open.
+          {hero.hook}
         </p>
 
         <DashboardPreview />

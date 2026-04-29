@@ -1,3 +1,5 @@
+import { about } from "../../config/content";
+
 export function About() {
   return (
     <section
@@ -12,37 +14,22 @@ export function About() {
               className="text-[12px] font-medium tracking-[1px] uppercase mb-4"
               style={{ color: 'var(--relo-accent)' }}
             >
-              About
+              {about.subTitle}
             </div>
             <h2
               className="font-serif text-[40px] font-medium tracking-[-1px] mb-4 text-white"
             >
-              Built out of frustration
+              {about.title}
             </h2>
-            <p
-              className="text-[15px] leading-[1.8] mb-4"
-              style={{ color: 'rgba(255,255,255,0.55)' }}
-            >
-              Relo started in 2021 because a spreadsheet wasn't cutting it. A
-              client calls, you're scrolling through rows, squinting at columns
-              — and the whole thing just feels embarrassing for something you
-              built a business around.
-            </p>
-            <p
-              className="text-[15px] leading-[1.8] mb-4"
-              style={{ color: 'rgba(255,255,255,0.55)' }}
-            >
-              Most CRMs are built for sales pipelines and enterprise teams. Relo
-              is built for one person running a tight operation who just wants to
-              look competent on a phone call.
-            </p>
-            <p
-              className="text-[15px] leading-[1.8]"
-              style={{ color: 'rgba(255,255,255,0.55)' }}
-            >
-              This is a ground-up rebuild of that original tool. Faster, cleaner,
-              and actually worth showing people.
-            </p>
+            {[about.blurb1, about.blurb2, about.blurb3, about.blurb4].map((blurb, index) => (
+              <p
+                key={index}
+                className={`text-[15px] leading-[1.8] ${index === 3 ? 'mb-0' : 'mb-4'}`}
+                style={{ color: 'rgba(255,255,255,0.55)' }}
+              >
+                {blurb}
+              </p>
+            ))}
           </div>
 
           <div>
@@ -54,8 +41,7 @@ export function About() {
                 borderLeft: '2px solid var(--relo-accent)',
               }}
             >
-              "Built for one person running a tight operation who just wants to
-              look competent on a phone call."
+              {about.quote}
             </blockquote>
           </div>
         </div>

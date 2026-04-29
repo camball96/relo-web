@@ -18,12 +18,11 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="px-10 py-20"
+      className="px-10 py-20 pb-[50%] md:pb-[10%]"
       style={{
         background: "var(--relo-bg)",
         position: "relative",
-        overflow: "hidden",
-        paddingBottom: "50%",
+        overflow: "hidden"
       }}
     >
       <span
