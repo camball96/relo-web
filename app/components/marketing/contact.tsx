@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { Turnstile } from "next-turnstile";
 import { FormState, submitContactForm } from "../../actions/formActions";
+import { contact } from "../../config/content";
 
 export function Contact() {
   const [currentState, formAction, isPending] = useActionState<FormState, FormData>(
@@ -59,14 +60,13 @@ export function Contact() {
             className="font-serif text-[32px] font-medium tracking-[-0.8px] mb-2"
             style={{ color: "var(--relo-text)" }}
           >
-            Say hello
+            {contact.title}
           </h2>
           <p
             className="text-[14px] leading-[1.6] mb-8"
             style={{ color: "var(--relo-muted)" }}
           >
-            Got a question, a feature you'd kill for, or just want to know when
-            Relo ships? We're easy to reach.
+            {contact.blurb}
           </p>
           {currentState.success && currentState.message ? (
             <div

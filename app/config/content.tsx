@@ -65,3 +65,12 @@ export const about = {
   blurb4: `Down the road, Relo will connect with the tools you're already using — so your data lives in one place without the manual work of keeping it there.`,
   quote: `\"Fast, focused, and honest about what it is. A tool that respects your time, your budget, and your clients.\"`,
 }
+
+
+// Contact content
+
+export const contact = {
+  title: 'Say hello',
+  blurb: `Got a question, a feature you'd love to see, or just want to know when
+            Relo ships? We're easy to reach.`,
+}
