@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    Relo — Favicon / App icon mark
+    Dark rounded square, "r" in white, accent bar beneath.
+    Scales cleanly from 16px to 512px.
+  -->
+  <!-- Background -->
+  <rect width="32" height="32" rx="7" fill="#111e18"/>
+  <!-- "r" letterform -->
+  <text x="16" y="23"
+    font-family="Inter, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="19" font-weight="300"
+    text-anchor="middle"
+    fill="#ffffff">r</text>
+  <!-- Accent bar -->
+  <rect x="19" y="26.5" width="6" height="1.5" rx="0.75" fill="#7bbfa0"/>
+</svg>
