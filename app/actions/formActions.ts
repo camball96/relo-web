@@ -78,6 +78,19 @@ export async function submitContactForm(
 				};
 			}
 
+			const contactSegment = await resend.contacts.segments.add({
+				email: email, 
+				segmentId: '087e053b-cbbe-48ee-bc82-eabe020c9186',
+			});
+
+			if (contactSegment.error) {
+				console.error("Resend contact segment error:", contactSegment.error);
+				return {
+					success: false,
+					error: "Failed to add you to the waitlist. Please try again.",
+				};
+			}
+
 			const confirmation = await resend.emails.send({
 				from: "onboarding@contact.relocrm.au",
 				to: [email],
