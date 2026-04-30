@@ -63,6 +63,21 @@ export async function submitContactForm(
 				}
 			}
 
+			const contact = await resend.contacts.create({
+				email: email,
+				firstName: name,
+				lastName: '',
+				unsubscribed: false,
+			});
+
+			if (contact.error) {
+				console.error("Resend contact error:", contact.error);
+				return {
+					success: false,
+					error: "Failed to add you to the waitlist. Please try again.",
+				};
+			}
+
 			const confirmation = await resend.emails.send({
 				from: "onboarding@contact.relocrm.au",
 				to: [email],
