@@ -101,6 +101,7 @@ export function Contact() {
                 <div key={field.name}>
                   <label
                     className="block text-[12px] font-medium mb-[6px]"
+                    htmlFor={field.name}
                     style={{ color: "var(--relo-muted)" }}
                   >
                     {field.label}
@@ -108,6 +109,7 @@ export function Contact() {
                   <input
                     type={field.type}
                     name={field.name}
+                    id={field.name}
                     placeholder={field.placeholder}
                     className="w-full px-[14px] py-[10px] rounded-md text-[14px] outline-none transition-colors"
                     style={{
@@ -125,12 +127,14 @@ export function Contact() {
               <div>
                 <label
                   className="block text-[12px] font-medium mb-[6px]"
+                  htmlFor="message"
                   style={{ color: "var(--relo-muted)" }}
                 >
                   Message
                 </label>
                 <textarea
                   name="message"
+                  id="message"
                   placeholder="What's on your mind?"
                   rows={4}
                   className="w-full px-[14px] py-[10px] rounded-md text-[14px] outline-none resize-y leading-relaxed"
