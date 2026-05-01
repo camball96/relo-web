@@ -1,6 +1,6 @@
 # relo-web
 
-Marketing site for Relo. Handles everything public-facing — the homepage, features, about, contact, and waitlist. 
+Marketing site for Relo. Handles everything public-facing — the homepage, features, about, contact, and waitlist.
 
 The main app (`relo`) lives on a self-hosted VPS and carries Postgres, Prisma, Better Auth, and all the product logic. Keeping the marketing site separate means a copy change or a design tweak here never goes anywhere near the app codebase — different repo, different deployment, different concern. When sign-up eventually moves here, it'll just call the app's API as an external service.
 
@@ -11,9 +11,12 @@ No database. No auth. No Prisma.
 ## Stack
 
 - Next.js (App Router)
-- Tailwind CSS 
+- Tailwind CSS
 - TypeScript
 - Lucide React
+- Forms / email: Zod, Resend, React Email (`@react-email/components`)
+- Bot protection: `next-turnstile`
+- Deploy: OpenNext for Cloudflare (`@opennextjs/cloudflare`, Wrangler)
 
 ---
 
@@ -21,12 +24,16 @@ No database. No auth. No Prisma.
 
 ```
 relo-web/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Metadata + OG tags
-│   │   ├── page.tsx            # Homepage
-│   │   └── globals.css         # CSS variables / design tokens
+├── app/
+│   ├── layout.tsx              # Metadata + OG tags
+│   ├── page.tsx                # Homepage
+│   ├── globals.css             # CSS variables / design tokens
+│   ├── favicon.ico
+│   ├── actions/
+│   │   └── formActions.ts      # Server actions for marketing forms
 │   ├── components/
+│   │   ├── emails/
+│   │   │   └── WelcomeEmail.tsx
 │   │   ├── layout/
 │   │   │   ├── nav.tsx
 │   │   │   └── footer.tsx
@@ -37,12 +44,24 @@ relo-web/
 │   │       ├── about.tsx
 │   │       └── contact.tsx
 │   ├── config/
-│   │   └── site.ts             # Site name, tagline, nav items
+│   │   ├── site.ts             # Site name, tagline, nav items
+│   │   └── content.tsx         # Long-form / section copy
 │   └── lib/
 │       └── utils.ts            # cn() helper
+├── public/
+│   └── _headers                # Static asset headers (e.g. CDN)
+├── AGENTS.md                   # AI / agent conventions (points at Next docs)
+├── CLAUDE.md                   # @-references AGENTS.md
+├── eslint.config.mjs
 ├── next.config.ts
+├── open-next.config.ts         # OpenNext + Cloudflare adapter
+├── postcss.config.mjs          # Tailwind PostCSS pipeline
+├── postcss.config.ts           # Same plugins as mjs (redundant entry point)
 ├── tailwind.config.ts
-└── tsconfig.json
+├── tsconfig.json
+├── wrangler.jsonc              # Cloudflare Worker name, assets, routes
+├── package.json
+└── README.md
 ```
 
 ---
@@ -54,12 +73,19 @@ npm install
 npm run dev
 ```
 
+Cloudflare preview / deploy (requires Wrangler auth and env):
+
+```bash
+npm run preview   # local worker + assets
+npm run deploy    # build + deploy
+npm run upload    # build + upload (CI-friendly)
+```
+
 ---
 
 ## Design Tokens
 
-Colours are CSS variables in `globals.css`, mirrored in `tailwind.config.ts` under the `relo` key. This is a build on the main app's palette.
-
+Colours are CSS variables in `app/globals.css`, mirrored in `tailwind.config.ts` under the `relo` key. This is a build on the main app's palette.
 
 | Token           | Value     |
 | --------------- | --------- |
@@ -72,15 +98,13 @@ Colours are CSS variables in `globals.css`, mirrored in `tailwind.config.ts` und
 | `--relo-muted`  | `#4a6359` |
 | `--relo-border` | `#c8cec8` |
 
-
 ---
 
 ## TODO
 
-- **Waitlist form** — `hero.tsx` shows a success state but doesn't POST anywhere yet. Needs a `/api/waitlist` route handler wired to an email service.
-- **Contact form** — same deal, `contact.tsx` has a TODO where the fetch goes.
+- **Email env** — `app/actions/formActions.ts` uses Resend. Set `RESEND_API_KEY`; for contact notifications to your inbox, set `CONTACT_FORM_TO_EMAIL`. Contact UI expects `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (and verify token server-side when you tighten spam handling).
 - **Sign-up** — once the app launches, the waitlist CTA flips to point at `app.relo.com`. If registration ever lives here it'll call the app's Better Auth endpoint directly.
-- **Deployment** — not set up yet.
+- **Deployment** — OpenNext + Wrangler are wired (`preview` / `deploy` scripts); tune `wrangler.jsonc` (routes, bindings) for your environment.
 
 ---
 
