@@ -3,6 +3,7 @@
 
 import { Resend } from "resend";
 import * as z from "zod";
+import { validateTurnstileToken } from "next-turnstile";
 import { WelcomeEmail } from "../components/emails/WelcomeEmail";
 
 export type FormState = {
@@ -20,6 +21,16 @@ export async function submitContactForm(
 			success: true,
 			message: "Got it - we'll be in touch.",
 		}
+	}
+
+	// Validate Turnstile token before anything else
+	const token = String(formData.get("turnstileToken") ?? "")
+	const turnstileResult = await validateTurnstileToken({
+		token,
+		secretKey: process.env.TURNSTILE_SECRET_KEY!,
+	})
+	if (!turnstileResult.success) {
+		return { success: false, error: "Security check failed. Please try again." }
 	}
 
 	try {

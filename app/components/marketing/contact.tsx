@@ -4,8 +4,10 @@ import { useActionState, useState } from "react";
 import { Turnstile } from "next-turnstile";
 import { FormState, submitContactForm } from "../../actions/formActions";
 import { contact } from "../../config/content";
+import { useRouter } from 'next/navigation';
 
 export function Contact() {
+  const router = useRouter();
   const [currentState, formAction, isPending] = useActionState<FormState, FormData>(
     submitContactForm,
     {},
@@ -78,6 +80,16 @@ export function Contact() {
               data-testid="success-message"
             >
               <p> Got it — we'll be in touch.</p>
+            </div>
+          ) : currentState.error ? (
+            <div
+              className="px-[14px] py-[10px] rounded-md text-[14px] font-medium"
+              style={{
+                background: "var(--relo-rbg)",
+                color: "var(--relo-red)",
+              }}
+            >
+              <button onClick={() => window.location.reload()}> {currentState.error}</button>
             </div>
           ) : (
             <form action={formAction} className="space-y-4">
@@ -161,7 +173,6 @@ export function Contact() {
               <div>
                 <Turnstile
                   siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                  onVerify={handleVerify}
                   theme="light"
                 />
               </div>
