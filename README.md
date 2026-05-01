@@ -14,6 +14,7 @@ No database. No auth. No Prisma.
 - Tailwind CSS
 - TypeScript
 - Lucide React
+- Testing: Playwright (`@playwright/test`)
 - Forms / email: Zod, Resend, React Email (`@react-email/components`)
 - Bot protection: `next-turnstile`
 - Deploy: OpenNext for Cloudflare (`@opennextjs/cloudflare`, Wrangler)
@@ -57,7 +58,10 @@ relo-web/
 ├── open-next.config.ts         # OpenNext + Cloudflare adapter
 ├── postcss.config.mjs          # Tailwind PostCSS pipeline
 ├── postcss.config.ts           # Same plugins as mjs (redundant entry point)
+├── playwright.config.ts        # Playwright config for E2E tests
 ├── tailwind.config.ts
+├── tests/
+│   └── home.spec.ts            # Homepage E2E coverage
 ├── tsconfig.json
 ├── wrangler.jsonc              # Cloudflare Worker name, assets, routes
 ├── package.json
