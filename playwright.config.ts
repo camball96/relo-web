@@ -71,8 +71,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
+  // Updated command to improve efficiency - avoids running from scrath every run
   webServer: {
-    command: 'npm run dev -- --hostname 127.0.0.1 --port 3000',
+    command: process.env.CI
+    ? 'npm run build && npm run start -- --hostname 127.0.0.1 --port 3000'
+    : 'npm run dev -- --hostname 127.0.0.1 --port 3000',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,

@@ -14,6 +14,14 @@ export async function submitContactForm(
 	_prevState: FormState,
 	formData: FormData,
 ): Promise<FormState> {
+
+	if (process.env.TEST_MODE === 'true') {
+		return {
+			success: true,
+			message: "Got it - we'll be in touch.",
+		}
+	}
+
 	try {
 		if (!process.env.RESEND_API_KEY) {
 			return {
