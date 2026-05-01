@@ -58,12 +58,14 @@ export function Hero() {
             }}
             required
             disabled={isPending}
+            data-testid="email_hero"
           />
           <button
             type="submit"
             className="bg-white font-medium text-[14px] px-[22px] py-[11px] rounded-md whitespace-nowrap hover:bg-relo-gbg transition-colors"
             style={{ color: 'var(--relo-dark)' }}
             disabled={isPending}
+            data-testid="submit-button-hero"
           >
             {isPending ? "Submitting..." : hero.buttonText}
           </button>
@@ -77,6 +79,7 @@ export function Hero() {
               color: 'var(--relo-accent)',
               border: '0.5px solid rgba(123,191,160,0.3)',
             }}
+            data-testid="success-message-hero"
           >
             You're on the list. We'll be in touch.
           </div>

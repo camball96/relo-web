@@ -75,6 +75,7 @@ export function Contact() {
                 background: "var(--relo-gbg)",
                 color: "var(--relo-green)",
               }}
+              data-testid="success-message"
             >
               <p> Got it — we'll be in touch.</p>
             </div>
@@ -94,6 +95,7 @@ export function Contact() {
                   label: "Email",
                   type: "email",
                   placeholder: "your@email.com",
+                  dataTestId: "email",
                 },
               ].map((field) => (
                 <div key={field.name}>
@@ -115,6 +117,7 @@ export function Contact() {
                     }}
                     disabled={isPending}
                     required
+                    data-testid={field.dataTestId}
                   />
                 </div>
               ))}
@@ -137,6 +140,7 @@ export function Contact() {
                     color: "var(--relo-text)",
                   }}
                   disabled={isPending}
+                  data-testid="message"
                   required
                 />
               </div>
@@ -145,6 +149,7 @@ export function Contact() {
                 type="submit"
                 className="mt-2 px-[26px] py-[11px] rounded-md text-[14px] font-medium text-white transition-colors"
                 style={{ background: "var(--relo-dark)" }}
+                data-testid="submit-button"
                 disabled={isPending}
               >
                 {isPending ? "Sending..." : "Send message"}
