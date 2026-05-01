@@ -5,8 +5,6 @@ import { Resend } from "resend";
 import * as z from "zod";
 import { WelcomeEmail } from "../components/emails/WelcomeEmail";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export type FormState = {
 	success?: boolean;
 	error?: string;
@@ -23,6 +21,7 @@ export async function submitContactForm(
 				error: "Email service is not configured yet.",
 			};
 		}
+		const resend = new Resend(process.env.RESEND_API_KEY);
 
 		const source = String(formData.get("source") ?? "hero");
 
@@ -94,7 +93,7 @@ export async function submitContactForm(
 			const confirmation = await resend.emails.send({
 				from: "onboarding@contact.relocrm.au",
 				to: [email],
-				subject: "Exciting new, you are on the waitlist for Relo!",
+				subject: "Exciting news, you are on the waitlist for Relo!",
 				react: WelcomeEmail({ name, email, message }),
 			});
 
@@ -128,7 +127,7 @@ export async function submitContactForm(
 		const { error } = await resend.emails.send({
 			from: "noreply@contact.relocrm.au",
 			to: [email],
-			subject: "Thank you for contacting me",
+			subject: "Exciting news, you are on the waitlist for Relo!",
 			react: WelcomeEmail({ name: email.split("@")[0], email, message: "" }),
 		});
 
