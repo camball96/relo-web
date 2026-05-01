@@ -24,7 +24,7 @@ export function Nav() {
           </Link>
         ))}
         <Link
-          href="#waitlist"
+          href="#contact"
           className="bg-white text-[13px] hidden sm:inline-block font-medium px-[18px] py-[7px] rounded-md hover:bg-relo-gbg transition-colors"
           style={{ color: 'var(--relo-dark)' }}
         >

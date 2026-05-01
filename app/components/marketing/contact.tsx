@@ -4,8 +4,10 @@ import { useActionState, useState } from "react";
 import { Turnstile } from "next-turnstile";
 import { FormState, submitContactForm } from "../../actions/formActions";
 import { contact } from "../../config/content";
+import { useRouter } from 'next/navigation';
 
 export function Contact() {
+  const router = useRouter();
   const [currentState, formAction, isPending] = useActionState<FormState, FormData>(
     submitContactForm,
     {},
@@ -75,8 +77,19 @@ export function Contact() {
                 background: "var(--relo-gbg)",
                 color: "var(--relo-green)",
               }}
+              data-testid="success-message"
             >
               <p> Got it — we'll be in touch.</p>
+            </div>
+          ) : currentState.error ? (
+            <div
+              className="px-[14px] py-[10px] rounded-md text-[14px] font-medium"
+              style={{
+                background: "var(--relo-rbg)",
+                color: "var(--relo-red)",
+              }}
+            >
+              <button onClick={() => window.location.reload()}> {currentState.error}</button>
             </div>
           ) : (
             <form action={formAction} className="space-y-4">
@@ -94,11 +107,13 @@ export function Contact() {
                   label: "Email",
                   type: "email",
                   placeholder: "your@email.com",
+                  dataTestId: "email",
                 },
               ].map((field) => (
                 <div key={field.name}>
                   <label
                     className="block text-[12px] font-medium mb-[6px]"
+                    htmlFor={field.name}
                     style={{ color: "var(--relo-muted)" }}
                   >
                     {field.label}
@@ -106,6 +121,7 @@ export function Contact() {
                   <input
                     type={field.type}
                     name={field.name}
+                    id={field.name}
                     placeholder={field.placeholder}
                     className="w-full px-[14px] py-[10px] rounded-md text-[14px] outline-none transition-colors"
                     style={{
@@ -115,6 +131,7 @@ export function Contact() {
                     }}
                     disabled={isPending}
                     required
+                    data-testid={field.dataTestId}
                   />
                 </div>
               ))}
@@ -122,12 +139,14 @@ export function Contact() {
               <div>
                 <label
                   className="block text-[12px] font-medium mb-[6px]"
+                  htmlFor="message"
                   style={{ color: "var(--relo-muted)" }}
                 >
                   Message
                 </label>
                 <textarea
                   name="message"
+                  id="message"
                   placeholder="What's on your mind?"
                   rows={4}
                   className="w-full px-[14px] py-[10px] rounded-md text-[14px] outline-none resize-y leading-relaxed"
@@ -137,6 +156,7 @@ export function Contact() {
                     color: "var(--relo-text)",
                   }}
                   disabled={isPending}
+                  data-testid="message"
                   required
                 />
               </div>
@@ -145,6 +165,7 @@ export function Contact() {
                 type="submit"
                 className="mt-2 px-[26px] py-[11px] rounded-md text-[14px] font-medium text-white transition-colors"
                 style={{ background: "var(--relo-dark)" }}
+                data-testid="submit-button"
                 disabled={isPending}
               >
                 {isPending ? "Sending..." : "Send message"}
@@ -152,7 +173,6 @@ export function Contact() {
               <div>
                 <Turnstile
                   siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                  onVerify={handleVerify}
                   theme="light"
                 />
               </div>

@@ -3,9 +3,8 @@
 
 import { Resend } from "resend";
 import * as z from "zod";
+import { validateTurnstileToken } from "next-turnstile";
 import { WelcomeEmail } from "../components/emails/WelcomeEmail";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export type FormState = {
 	success?: boolean;
@@ -16,6 +15,24 @@ export async function submitContactForm(
 	_prevState: FormState,
 	formData: FormData,
 ): Promise<FormState> {
+
+	if (process.env.TEST_MODE === 'true') {
+		return {
+			success: true,
+			message: "Got it - we'll be in touch.",
+		}
+	}
+
+	// Validate Turnstile token before anything else
+	const token = String(formData.get("turnstileToken") ?? "")
+	const turnstileResult = await validateTurnstileToken({
+		token,
+		secretKey: process.env.TURNSTILE_SECRET_KEY!,
+	})
+	if (!turnstileResult.success) {
+		return { success: false, error: "Security check failed. Please try again." }
+	}
+
 	try {
 		if (!process.env.RESEND_API_KEY) {
 			return {
@@ -23,6 +40,7 @@ export async function submitContactForm(
 				error: "Email service is not configured yet.",
 			};
 		}
+		const resend = new Resend(process.env.RESEND_API_KEY);
 
 		const source = String(formData.get("source") ?? "hero");
 
@@ -94,7 +112,7 @@ export async function submitContactForm(
 			const confirmation = await resend.emails.send({
 				from: "onboarding@contact.relocrm.au",
 				to: [email],
-				subject: "Exciting new, you are on the waitlist for Relo!",
+				subject: "Exciting news, you are on the waitlist for Relo!",
 				react: WelcomeEmail({ name, email, message }),
 			});
 
@@ -128,7 +146,7 @@ export async function submitContactForm(
 		const { error } = await resend.emails.send({
 			from: "noreply@contact.relocrm.au",
 			to: [email],
-			subject: "Thank you for contacting me",
+			subject: "Exciting news, you are on the waitlist for Relo!",
 			react: WelcomeEmail({ name: email.split("@")[0], email, message: "" }),
 		});
 
