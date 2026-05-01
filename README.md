@@ -102,12 +102,18 @@ Colours are CSS variables in `app/globals.css`, mirrored in `tailwind.config.ts`
 
 ## TODO
 
-- **Email env** — `app/actions/formActions.ts` uses Resend. Set `RESEND_API_KEY`; for contact notifications to your inbox, set `CONTACT_FORM_TO_EMAIL`. Contact UI expects `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (and verify token server-side when you tighten spam handling).
 - **Sign-up** — once the app launches, the waitlist CTA flips to point at `app.relo.com`. If registration ever lives here it'll call the app's Better Auth endpoint directly.
-- **Deployment** — OpenNext + Wrangler are wired (`preview` / `deploy` scripts); tune `wrangler.jsonc` (routes, bindings) for your environment.
 
 ---
 
 ## vs `relo`
 
 `relo` is the app (Postgres, Prisma, Better Auth, self-hosted VPS). This repo is just the marketing site. They share a colour palette but are otherwise completely independent.
+
+---
+
+## Live Site
+
+See the production marketing site here:
+
+- [relocrm.au](https://relocrm.au)
