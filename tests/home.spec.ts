@@ -2,27 +2,27 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Home Page", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:3000");
+    await page.goto("/");
   });
 
   // Tests the page metadata
   test("Has page metadata", async ({ page }) => {
     await expect(page).toHaveTitle(/Relo — Your clients. Instantly recalled./);
-    await expect(page).toHaveURL("http://localhost:3000");
+    await expect(page).toHaveURL("/");
   });
 
   // Test navigation works
   test("Navigation works", async ({ page }) => {
     await page.getByRole("link", { name: "Features" }).click();
-    await expect(page).toHaveURL("http://localhost:3000/#features");
+    await expect(page).toHaveURL(/\/#features$/);
     await page.getByRole("link", { name: "About" }).click();
-    await expect(page).toHaveURL("http://localhost:3000/#about");
+    await expect(page).toHaveURL(/\/#about$/);
     await page.getByRole("link", { name: "Contact" }).click();
-    await expect(page).toHaveURL("http://localhost:3000/#contact");
+    await expect(page).toHaveURL(/\/#contact$/);
     await page.getByRole("link", { name: "Contact" }).click();
-    await expect(page).toHaveURL("http://localhost:3000/#contact");
+    await expect(page).toHaveURL(/\/#contact$/);
     await page.getByRole("link", { name: "Join waitlist" }).click();
-    await expect(page).toHaveURL("http://localhost:3000/#contact");
+    await expect(page).toHaveURL(/\/#contact$/);
   });
 
   // Test quick email address populates & submits
@@ -35,7 +35,7 @@ test.describe("Home Page", () => {
   // Test form populates & submits
   test("Form populates & submits", async ({ page }) => {
     await page.getByRole("link", { name: "Join waitlist" }).click();
-    await expect(page).toHaveURL("http://localhost:3000/#contact");
+    await expect(page).toHaveURL(/\/#contact$/);
     await page.getByRole("textbox", {name: "name"}).fill("Playwright");
     await page.getByTestId("email").fill("test@test.com");
     await page.getByTestId("message").fill("Hello, I'm a test message");
