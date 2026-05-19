@@ -1,28 +1,122 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata, Viewport } from "next";
+import { GoogleTagManager } from "@next/third-parties/google";
+import { siteConfig } from "./config/site";
+
+// Styles Import
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Relo — Your clients. Instantly recalled.',
-  description:
-    'The workspace for freelancers and service providers who need to know exactly what every client is on — the moment they pick up the phone.',
-  openGraph: {
-    title: 'Relo — Your clients. Instantly recalled.',
-    description:
-      'No spreadsheets. No digging. Just answers. Know exactly what every client has the moment they call.',
-    url: 'https://relo.com',
-    siteName: 'Relo',
-    type: 'website',
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    template: `%s — ${siteConfig.name}`,
   },
-}
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  keywords: [
+    "CRM",
+    "freelancer CRM",
+    "client management",
+    "small business CRM",
+    "service provider software",
+    "customer management",
+    "product catalogue",
+  ],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_AU",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    // The image is auto-discovered from app/opengraph-image.tsx
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    creator: "@relocrm",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  category: "business",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#111e18",
+  width: "device-width",
+  initialScale: 1,
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      logo: `${siteConfig.url}/icon.svg`,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      url: siteConfig.url,
+      name: siteConfig.name,
+      description: siteConfig.description,
+      publisher: { "@id": `${siteConfig.url}/#organization` },
+      inLanguage: "en-AU",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: siteConfig.name,
+      description: siteConfig.description,
+      url: siteConfig.url,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "AUD",
+      },
+    },
+  ],
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <GoogleTagManager
+        gtmId={process.env.GOOGLE_TAG_MANAGER_ID!}
+        gtmScriptUrl="https://www.googletagmanager.com/gtm.js"
+      />
+      <body>
+        {children}
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </body>
     </html>
-  )
+  );
 }
