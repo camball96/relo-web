@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { siteConfig } from "./config/site";
+import { InAppBrowserBanner } from "./components/marketing/in-app-browser-banner";
 
 // Styles Import
 import "./globals.css";
@@ -108,6 +109,7 @@ export default function RootLayout({
     <html lang="en">
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
       <body>
+        <InAppBrowserBanner />
         {children}
         <script
           type="application/ld+json"

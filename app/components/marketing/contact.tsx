@@ -1,10 +1,20 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Turnstile } from "next-turnstile";
 import { FormState, submitContactForm } from "../../actions/formActions";
 import { contact } from "../../config/content";
 import { useRouter } from 'next/navigation';
+
+function detectInAppBrowser(): string | null {
+  if (typeof navigator === "undefined") return null;
+  const ua = navigator.userAgent || "";
+  if (/Instagram/i.test(ua)) return "Instagram";
+  if (/FBAN|FBAV|FB_IAB/i.test(ua)) return "Facebook";
+  if (/TikTok|BytedanceWebview|musical_ly/i.test(ua)) return "TikTok";
+  if (/LinkedInApp/i.test(ua)) return "LinkedIn";
+  return null;
+}
 
 export function Contact() {
   const router = useRouter();
@@ -13,9 +23,25 @@ export function Contact() {
     {},
   );
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [inAppName, setInAppName] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    setInAppName(detectInAppBrowser());
+  }, []);
 
   function handleVerify(token: string) {
     setTurnstileToken(token);
+  }
+
+  async function handleCopyLink() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API can be blocked; silently ignore — user can still copy from URL bar.
+    }
   }
 
   return (
@@ -58,6 +84,36 @@ export function Contact() {
             border: "0.5px solid var(--relo-border)",
           }}
         >
+          {inAppName && (
+            <div
+              className="mb-6 px-[14px] py-[12px] rounded-md text-[13px] leading-[1.5]"
+              style={{
+                background: "var(--relo-bg)",
+                border: "0.5px solid var(--relo-border)",
+                color: "var(--relo-text)",
+              }}
+              data-testid="in-app-browser-banner"
+            >
+              <p className="font-medium mb-1">
+                Heads up — you&apos;re in the {inAppName} browser
+              </p>
+              <p style={{ color: "var(--relo-muted)" }} className="mb-2">
+                Our security check can&apos;t run here. Open this page in your
+                normal browser to send a message — tap the{" "}
+                <span className="font-medium">⋯</span> menu and choose{" "}
+                <span className="font-medium">Open in browser</span>, or copy
+                the link.
+              </p>
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="text-[13px] font-medium underline underline-offset-2"
+                style={{ color: "var(--relo-green)" }}
+              >
+                {copied ? "Link copied" : "Copy link"}
+              </button>
+            </div>
+          )}
           <h2
             className="font-serif text-[32px] font-medium tracking-[-0.8px] mb-2"
             style={{ color: "var(--relo-text)" }}
