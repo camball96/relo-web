@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { siteConfig } from "./config/site";
 
 // Styles Import
@@ -105,10 +105,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <GoogleTagManager
-        gtmId={process.env.GOOGLE_TAG_MANAGER_ID!}
-        gtmScriptUrl="https://www.googletagmanager.com/gtm.js"
-      />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
       <body>
         {children}
         <script
