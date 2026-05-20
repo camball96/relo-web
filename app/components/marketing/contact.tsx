@@ -174,6 +174,9 @@ export function Contact() {
                 <Turnstile
                   siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
                   theme="light"
+                  onVerify={handleVerify}
+                  onExpire={() => setTurnstileToken("")}
+                  onError={() => setTurnstileToken("")}
                 />
               </div>
             </form>
