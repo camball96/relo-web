@@ -44,7 +44,7 @@ export function Hero() {
 
         <form
           action={formAction}
-          className="hero-form flex gap-[10px] max-w-[440px]"
+          className="hero-form flex flex-col sm:flex-row gap-[10px] max-w-[440px]"
         >
           <input type="hidden" name="source" value="hero" />
           <input
@@ -64,7 +64,7 @@ export function Hero() {
           />
           <button
             type="submit"
-            className="bg-white font-medium text-[14px] px-[22px] py-[11px] rounded-md whitespace-nowrap hover:bg-relo-gbg transition-colors"
+            className="bg-white font-medium text-[14px] px-[22px] py-[11px] rounded-md whitespace-nowrap hover:bg-relo-gbg transition-colors sm:w-auto w-full"
             style={{ color: "var(--relo-dark)" }}
             disabled={isPending}
             data-testid="submit-button-hero"
