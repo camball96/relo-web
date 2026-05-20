@@ -41,8 +41,8 @@ export function InAppBrowserBanner() {
       }}
       data-testid="in-app-browser-banner"
     >
-      <div className="max-w-[900px] mx-auto flex  items-center justify-between gap-x-4 gap-y-1">
-        <h1 className="text-[16px] font-bold wrap">
+      <div className="max-w-[900px] mx-auto flex flex-col items-center gap-y-3 sm:flex-row sm:items-center sm:justify-between sm:gap-x-4 sm:gap-y-1">
+        <h1 className="text-[16px] font-bold wrap text-center sm:text-left">
           You&apos;re in the {inAppName} browser — They actively block form
           submissions.
           <br /> Open in your normal browser to use the site.
